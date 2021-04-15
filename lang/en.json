@@ -1,0 +1,24 @@
+{
+  "site": {
+    "title": "Vaccine Autobahn",
+    "subtitle": "How fast are we going? When will we get there?"
+  },
+  "dashboard":{
+    "current-speed": "Vaccination speed",
+    "current-speed-first": "First-dose speed",
+    "current-speed-full": "Full-protection speed",
+    "doses-per-week": "dose/week",
+    "people-per-week": "people/week",
+    "percentage": "{number} %",
+    "in-the-last-7-days": "in the last 7 days",
+    "had-first-dose": "Population with 1 dose",
+    "had-second-dose": "Population full protection",
+    "week-number": "Wk {week}"
+  },
+  "destination": {
+    "population-fully-vaccinated": "Whole population fully vaccinated",
+    "population-fully-half-vaccinated": "50% population fully vaccinated",
+    "population-first-fully-vaccinated": "100% population had first dose",
+    "population-first-half-vaccinated": "50% population had first dose"
+  }
+}

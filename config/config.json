@@ -1,0 +1,19 @@
+{
+  "locale": "en",
+  "dataSchema": {
+    "cumulative": [
+      "dosen_kumulativ",
+      "personen_erst_kumulativ",
+      "personen_voll_kumulativ",
+      "impf_quote_erst",
+      "impf_quote_voll"
+    ],
+    "mapping": {
+      "first": "personen_erst_kumulativ",
+      "first_quota": "impf_quote_erst",
+      "full": "personen_voll_kumulativ",
+      "full_quota": "impf_quote_voll",
+      "doses": "dosen_kumulativ"
+    }
+  }
+}
