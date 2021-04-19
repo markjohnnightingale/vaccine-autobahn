@@ -12,16 +12,6 @@
     </div>
     <div class="destination-widget__row">
       <div class="destination-widget__destination">
-        {{ $t("destination.population-fully-half-vaccinated") }}
-      </div>
-      <div class="destination-widget__distance">
-        {{ predictedDatesLinear.full.half.fromNow() }} ({{
-          predictedDatesLinear.full.half.format("MMM YYYY")
-        }})
-      </div>
-    </div>
-    <div class="destination-widget__row">
-      <div class="destination-widget__destination">
         {{ $t("destination.population-first-fully-vaccinated") }}
       </div>
       <div class="destination-widget__distance">
@@ -56,8 +46,9 @@ export default {
   background-color: $autobahn-blue !important;
   border: 8px solid $white;
   border-radius: 9px;
-  padding: 1rem;
+  padding: 2rem !important;
   margin-bottom: 4rem;
+  font-size: 1.2rem;
   .destination-widget__row {
     font-weight: 900;
     font-family: $autobahn-font;

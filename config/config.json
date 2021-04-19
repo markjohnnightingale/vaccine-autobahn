@@ -1,5 +1,8 @@
 {
   "locale": "en",
+  "vaccineReadiness": 0.76,
+  "vaccinatablePopulation": 69460000,
+  "dosesRequired": 2,
   "dataSchema": {
     "cumulative": [
       "dosen_kumulativ",

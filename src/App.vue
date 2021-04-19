@@ -17,14 +17,18 @@
           v-if="lastUpdated"
         ></last-updated>
       </div>
-      <main-chart :weeklyData="weeklyData" v-if="weeklyData"></main-chart>
+      <main-chart
+        :weeklyData="weeklyData"
+        :predictedData="predictedFutureWeeklyData"
+        v-if="weeklyData && predictedFutureWeeklyData"
+      ></main-chart>
       <dashboard
         :current-speeds="currentSpeeds"
         :current-quotas="currentQuotas"
         :current-quota-speeds="currentQuotaSpeeds"
         :current-trends="currentTrends"
-        :predicted-dates-linear="predictedDatesLinear"
-        v-if="currentSpeeds && predictedDatesLinear"
+        :predicted-dates-linear="predictedDestinations"
+        v-if="currentSpeeds && predictedDestinations"
       ></dashboard>
     </div>
   </div>
@@ -254,38 +258,83 @@ export default {
           1
       };
     },
-    predictedDatesLinear() {
+    predictedDestinations() {
       if (!this.currentQuotaSpeeds || !this.currentQuotas) {
         return null;
       }
       return {
         first: {
           everyone: moment().add(
-            (1 - this.currentQuotas.first) / this.currentQuotaSpeeds.first,
+            (this.$config.vaccinatablePopulation *
+              this.$config.vaccineReadiness -
+              this.weeklyData[this.weeklyData.length - 1][
+                this.$config.dataSchema.mapping.first
+              ]) /
+              this.currentSpeeds.first,
             "weeks"
           ),
           half: moment().add(
-            (0.5 - this.currentQuotas.first) / this.currentQuotaSpeeds.first,
+            ((this.$config.vaccinatablePopulation / 2) *
+              this.$config.vaccineReadiness -
+              this.weeklyData[this.weeklyData.length - 1][
+                this.$config.dataSchema.mapping.first
+              ]) /
+              this.currentSpeeds.first,
             "weeks"
           )
         },
         full: {
           everyone: moment().add(
-            (1 - this.currentQuotas.full) / this.currentQuotaSpeeds.full,
-            "weeks"
-          ),
-          half: moment().add(
-            (0.5 - this.currentQuotas.full) / this.currentQuotaSpeeds.full,
+            (this.$config.vaccinatablePopulation *
+              2 *
+              this.$config.vaccineReadiness -
+              this.weeklyData[this.weeklyData.length - 1][
+                this.$config.dataSchema.mapping.doses
+              ]) /
+              this.currentSpeeds.doses,
             "weeks"
           )
         }
       };
+    },
+    predictedFutureWeeklyData() {
+      // create new array of data to preserve old array
+      let reverseData = []
+        .concat(this.processedData)
+        .sort((a, b) => a.date.isBefore(b.date));
+      let mostRecentDate = reverseData[0].date.clone();
+
+      const predictedWeeklyData = [];
+
+      // Calculate required doses for full vaccination of adult vaccine-ready population
+      const requiredDoses = this.requiredDoses;
+
+      // Start at current doses administered
+      let predictedTotalDoses =
+        reverseData[0][this.$config.dataSchema.mapping.doses];
+
+      while (predictedTotalDoses < requiredDoses) {
+        console.log(predictedTotalDoses, requiredDoses);
+        predictedTotalDoses += this.currentSpeeds.doses;
+        let weeksData = {};
+        weeksData[this.$config.dataSchema.mapping.doses] = predictedTotalDoses;
+        weeksData.date = mostRecentDate.add(7, "days").clone();
+        predictedWeeklyData.push(weeksData);
+      }
+      return predictedWeeklyData;
     },
     lastUpdated() {
       if (!this.processedData) {
         return null;
       }
       return this.processedData[this.processedData.length - 1].date;
+    },
+    requiredDoses() {
+      const requiredDoses =
+        this.$config.vaccinatablePopulation *
+        this.$config.vaccineReadiness *
+        this.$config.dosesRequired;
+      return requiredDoses;
     }
   },
   mounted() {

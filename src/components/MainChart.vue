@@ -92,7 +92,18 @@ export default {
     };
   },
   props: {
-    weeklyData: {}
+    weeklyData: {},
+    predictedData: {}
+  },
+  methods: {
+    padLeftDataset(array, amountToPad, template = {}) {
+      let newArray = [].concat(array);
+      for (let index = 0; index < amountToPad; index++) {
+        const element = template;
+        newArray.unshift(element);
+      }
+      return newArray;
+    }
   },
   computed: {
     chartData() {
@@ -129,15 +140,31 @@ export default {
               row => row[this.$config.dataSchema.mapping.first]
             ),
             parsing: false,
-            backgroundColor: "#dce5e3",
+            backgroundColor: "#A2C7FB",
             barPercentage: 0.95,
             categoryPercentage: 1.0
+          },
+          {
+            type: "bar",
+            yAxisID: "population",
+            label: "Predicted Immunizations",
+            data: this.predictedChartDataset,
+            backgroundColor: "#fcf0c4"
           }
         ],
-        labels: this.weeklyData.map(row =>
-          this.$t("dashboard.week-number", { week: row.date.week() })
-        )
+        labels: this.weeklyData
+          .concat(this.predictedData)
+          .map(row => row.date.format("DD MMM"))
       };
+    },
+    predictedChartDataset() {
+      const template = {};
+      template[this.$config.dataSchema.mapping.doses] = 0;
+      return this.padLeftDataset(
+        this.predictedData,
+        this.weeklyData.length,
+        template
+      ).map(row => row[this.$config.dataSchema.mapping.doses]);
     }
   }
 };
