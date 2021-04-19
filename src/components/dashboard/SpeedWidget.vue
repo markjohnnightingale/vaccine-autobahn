@@ -1,9 +1,23 @@
 <template>
-  <div class="speed-widget box" :class="{ 'is-primary': highlight }">
+  <div
+    class="speed-widget box tile is-child"
+    :class="{ 'is-primary': highlight }"
+  >
     <p class="speed-widget__title title">{{ title }}</p>
     <div class="speed-widget__panel">
-      <span class="speed-widget__number">{{ speed }}</span
-      ><br />
+      <div class="speed-widget__row">
+        <span class="speed-widget__number">{{ speed }}</span
+        ><span
+          class="speed-widget__trend"
+          v-if="trend"
+          :class="{ 'is-positive': positive }"
+        >
+          <span class="speed-widget__trend-number">{{ trend }}</span> <br />
+          <span class="speed-widget__trend-label">{{
+            $t("speed-widget.on-last-week")
+          }}</span></span
+        >
+      </div>
       <span class="speed-widget__per">{{ unit }}</span>
     </div>
   </div>
@@ -15,7 +29,17 @@ export default {
     speed: {},
     unit: {},
     title: {},
-    highlight: {}
+    highlight: {},
+    trend: {}
+  },
+  computed: {
+    positive() {
+      if (this.trend.indexOf("+") === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 };
 </script>
@@ -32,6 +56,22 @@ export default {
       content: "+";
       margin-right: 5px;
     }
+  }
+  .speed-widget__trend {
+    color: $red;
+    font-size: 0.8rem;
+    line-height: 1;
+    margin-left: 0.5rem;
+    &.is-positive {
+      color: $green;
+    }
+  }
+  .speed-widget__trend-number {
+    font-weight: bold;
+  }
+  .speed-widget__row {
+    display: flex;
+    align-items: center;
   }
 }
 </style>

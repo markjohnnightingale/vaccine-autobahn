@@ -11,11 +11,18 @@
       </div>
     </section>
     <div class="container">
+      <div class="block">
+        <last-updated
+          :last-updated="lastUpdated"
+          v-if="lastUpdated"
+        ></last-updated>
+      </div>
       <main-chart :weeklyData="weeklyData" v-if="weeklyData"></main-chart>
       <dashboard
         :current-speeds="currentSpeeds"
         :current-quotas="currentQuotas"
         :current-quota-speeds="currentQuotaSpeeds"
+        :current-trends="currentTrends"
         :predicted-dates-linear="predictedDatesLinear"
         v-if="currentSpeeds && predictedDatesLinear"
       ></dashboard>
@@ -26,13 +33,16 @@
 <script>
 import MainChart from "./components/MainChart";
 import Dashboard from "./components/Dashboard";
+import LastUpdated from "./components/LastUpdated";
 import Papa from "papaparse";
 import moment from "moment";
+
 export default {
   name: "app",
   components: {
     MainChart,
-    Dashboard
+    Dashboard,
+    LastUpdated
   },
   data: function() {
     return {
@@ -80,7 +90,7 @@ export default {
       );
     },
     getWeeklyData() {
-      // let weeklyData = [];
+      // create new array of data to preserve old array
       let reverseData = []
         .concat(this.processedData)
         .sort((a, b) => a.date.isBefore(b.date));
@@ -93,24 +103,55 @@ export default {
         currentDate.isSameOrAfter(firstDate);
         currentDate.subtract(7, "days")
       ) {
+        // Get current week's data (to aggregate)
         const oneWeekAgo = currentDate.clone().subtract(7, "days");
-        const rows = reverseData.filter(
+        const currentWeeklyRows = reverseData.filter(
           el =>
             el.date.isSameOrBefore(currentDate) && el.date.isAfter(oneWeekAgo)
         );
-        weeklyData.push(this.aggregateOneWeeksData(rows));
+
+        // Get last-weeks data (to calculate diffs for the current week)
+        const twoWeeksAgo = oneWeekAgo.clone().subtract(7, "days");
+        const lastWeeklyRows = reverseData.filter(
+          el =>
+            el.date.isSameOrBefore(oneWeekAgo) && el.date.isAfter(twoWeeksAgo)
+        );
+
+        // Aggregate and add the data
+        weeklyData.push(
+          this.aggregateOneWeeksData(currentWeeklyRows, lastWeeklyRows)
+        );
       }
       return weeklyData.reverse();
     },
-    aggregateOneWeeksData(rows) {
-      rows.sort((a, b) => a.date.isAfter(b.date));
-      let latestCumulative = rows[rows.length - 1];
+    aggregateOneWeeksData(currentWeekRows, lastWeekRows) {
+      let latestCumulativeCurrentWeek = this.getLastRow(currentWeekRows);
+      let latestCumulativeLastWeek = this.getLastRow(lastWeekRows);
       const aggregate = {};
+      // Get cummulative data
       this.$config.dataSchema.cumulative.forEach(key => {
-        aggregate[key] = latestCumulative[key];
+        aggregate[key] = latestCumulativeCurrentWeek[key];
+        // Calculate diffs
+        // If diffs don't exist, add them to the object
+        if (!aggregate.diffs) {
+          aggregate.diffs = {};
+        }
+
+        // If last week's data isn't null then add the diff, else assume it was 0
+        if (latestCumulativeLastWeek && latestCumulativeLastWeek[key]) {
+          aggregate.diffs[key] =
+            latestCumulativeCurrentWeek[key] - latestCumulativeLastWeek[key];
+        } else {
+          aggregate.diffs[key] = latestCumulativeCurrentWeek[key];
+        }
       });
-      aggregate.date = latestCumulative.date;
+
+      aggregate.date = latestCumulativeCurrentWeek.date;
       return aggregate;
+    },
+    getLastRow(rows) {
+      rows.sort((a, b) => a.date.isAfter(b.date));
+      return rows[rows.length - 1];
     }
   },
   computed: {
@@ -182,6 +223,37 @@ export default {
         ]
       };
     },
+    currentTrends() {
+      if (!this.weeklyData) {
+        return null;
+      }
+      return {
+        first:
+          this.weeklyData[this.weeklyData.length - 1].diffs[
+            this.$config.dataSchema.mapping.first
+          ] /
+            this.weeklyData[this.weeklyData.length - 2].diffs[
+              this.$config.dataSchema.mapping.first
+            ] -
+          1,
+        full:
+          this.weeklyData[this.weeklyData.length - 1].diffs[
+            this.$config.dataSchema.mapping.full
+          ] /
+            this.weeklyData[this.weeklyData.length - 2].diffs[
+              this.$config.dataSchema.mapping.full
+            ] -
+          1,
+        doses:
+          this.weeklyData[this.weeklyData.length - 1].diffs[
+            this.$config.dataSchema.mapping.doses
+          ] /
+            this.weeklyData[this.weeklyData.length - 2].diffs[
+              this.$config.dataSchema.mapping.doses
+            ] -
+          1
+      };
+    },
     predictedDatesLinear() {
       if (!this.currentQuotaSpeeds || !this.currentQuotas) {
         return null;
@@ -208,10 +280,17 @@ export default {
           )
         }
       };
+    },
+    lastUpdated() {
+      if (!this.processedData) {
+        return null;
+      }
+      return this.processedData[this.processedData.length - 1].date;
     }
   },
   mounted() {
     this.fetchData();
+    moment.locale(this.$config.locale);
   }
 };
 </script>

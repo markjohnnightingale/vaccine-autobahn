@@ -5,7 +5,9 @@
         {{ $t("destination.population-fully-vaccinated") }}
       </div>
       <div class="destination-widget__distance">
-        {{ predictedDatesLinear.full.everyone.fromNow() }}
+        {{ predictedDatesLinear.full.everyone.fromNow() }} ({{
+          predictedDatesLinear.full.everyone.format("MMM YYYY")
+        }})
       </div>
     </div>
     <div class="destination-widget__row">
@@ -13,7 +15,9 @@
         {{ $t("destination.population-fully-half-vaccinated") }}
       </div>
       <div class="destination-widget__distance">
-        {{ predictedDatesLinear.full.half.fromNow() }}
+        {{ predictedDatesLinear.full.half.fromNow() }} ({{
+          predictedDatesLinear.full.half.format("MMM YYYY")
+        }})
       </div>
     </div>
     <div class="destination-widget__row">
@@ -21,7 +25,9 @@
         {{ $t("destination.population-first-fully-vaccinated") }}
       </div>
       <div class="destination-widget__distance">
-        {{ predictedDatesLinear.first.everyone.fromNow() }}
+        {{ predictedDatesLinear.first.everyone.fromNow() }} ({{
+          predictedDatesLinear.first.everyone.format("MMM YYYY")
+        }})
       </div>
     </div>
     <div class="destination-widget__row">
@@ -29,7 +35,9 @@
         {{ $t("destination.population-first-half-vaccinated") }}
       </div>
       <div class="destination-widget__distance">
-        {{ predictedDatesLinear.first.half.fromNow() }}
+        {{ predictedDatesLinear.first.half.fromNow() }} ({{
+          predictedDatesLinear.first.half.format("MMM YYYY")
+        }})
       </div>
     </div>
   </div>

@@ -20,5 +20,16 @@
     "population-fully-half-vaccinated": "50% population fully vaccinated",
     "population-first-fully-vaccinated": "100% population had first dose",
     "population-first-half-vaccinated": "50% population had first dose"
+  },
+  "last-updated": {
+    "latest-data-from": "Data as of: "
+  },
+  "speed-widget": {
+    "on-last-week": "on last week"
+  },
+  "chart": {
+    "population": "Population",
+    "speed": "Doses per week",
+    "week-since-start": "Week since first vaccination"
   }
 }

@@ -1,5 +1,8 @@
 <template>
-  <div class="percentage-widget box" :class="{ 'is-primary': highlight }">
+  <div
+    class="percentage-widget box tile is-child"
+    :class="{ 'is-primary': highlight }"
+  >
     <p class="percentage-widget__title title">{{ title }}</p>
     <div class="percentage-widget__panel">
       <span class="percentage-widget__number">{{ percentage }}</span

@@ -1,48 +1,55 @@
 <template>
   <div class="dashboard">
-    <div class="columns">
-      <div class="column is-4">
+    <div class="tile is-ancestor">
+      <div class="tile is-parent is-4">
         <speed-widget
           :title="$t('dashboard.current-speed')"
           :speed="currentSpeedsFormatted.doses"
           :unit="$t('dashboard.doses-per-week')"
+          :trend="currentTrendsFormatted.doses"
           :highlight="true"
         ></speed-widget>
       </div>
-      <div class="column is-4">
-        <speed-widget
-          :title="$t('dashboard.current-speed-first')"
-          :speed="currentSpeedsFormatted.first"
-          :unit="$t('dashboard.people-per-week')"
-        ></speed-widget>
-      </div>
-      <div class="column is-4">
-        <speed-widget
-          :title="$t('dashboard.current-speed-full')"
-          :speed="currentSpeedsFormatted.full"
-          :unit="$t('dashboard.people-per-week')"
-        ></speed-widget>
+      <div class="tile is-8 is-vertical">
+        <div class="tile">
+          <div class="tile is-6 is-parent">
+            <speed-widget
+              :title="$t('dashboard.current-speed-first')"
+              :speed="currentSpeedsFormatted.first"
+              :trend="currentTrendsFormatted.first"
+              :unit="$t('dashboard.people-per-week')"
+            ></speed-widget>
+          </div>
+          <div class="tile is-6 is-parent">
+            <speed-widget
+              :title="$t('dashboard.current-speed-full')"
+              :speed="currentSpeedsFormatted.full"
+              :trend="currentTrendsFormatted.full"
+              :unit="$t('dashboard.people-per-week')"
+            ></speed-widget>
+          </div>
+        </div>
+        <div class="tile">
+          <div class="tile is-6 is-parent">
+            <percentage-widget
+              :title="$t('dashboard.had-first-dose')"
+              :percentage="currentQuotasFormatted.first"
+              :increase="currentQuotaSpeedsFormatted.first"
+              :text="$t('dashboard.in-the-last-7-days')"
+            ></percentage-widget>
+          </div>
+          <div class="tile is-6 is-parent">
+            <percentage-widget
+              :title="$t('dashboard.had-second-dose')"
+              :percentage="currentQuotasFormatted.full"
+              :increase="currentQuotaSpeedsFormatted.full"
+              :text="$t('dashboard.in-the-last-7-days')"
+            ></percentage-widget>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="columns">
-      <div class="column is-4"></div>
-      <div class="column is-4">
-        <percentage-widget
-          :title="$t('dashboard.had-first-dose')"
-          :percentage="currentQuotasFormatted.first"
-          :increase="currentQuotaSpeedsFormatted.first"
-          :text="$t('dashboard.in-the-last-7-days')"
-        ></percentage-widget>
-      </div>
-      <div class="column is-4">
-        <percentage-widget
-          :title="$t('dashboard.had-second-dose')"
-          :percentage="currentQuotasFormatted.full"
-          :increase="currentQuotaSpeedsFormatted.full"
-          :text="$t('dashboard.in-the-last-7-days')"
-        ></percentage-widget>
-      </div>
-    </div>
+
     <div class="columns is-centered">
       <div class="column is-7">
         <destination-widget
@@ -57,6 +64,7 @@
 import SpeedWidget from "./dashboard/SpeedWidget";
 import PercentageWidget from "./dashboard/PercentageWidget";
 import DestinationWidget from "./dashboard/DestinationWidget";
+import numeral from "numeral";
 export default {
   components: {
     SpeedWidget,
@@ -65,6 +73,7 @@ export default {
   },
   props: {
     currentSpeeds: {},
+    currentTrends: {},
     currentQuotas: {},
     currentQuotaSpeeds: {},
     predictedDatesLinear: {}
@@ -79,6 +88,16 @@ export default {
         first: formatter.format(this.currentSpeeds.first),
         full: formatter.format(this.currentSpeeds.full),
         doses: formatter.format(this.currentSpeeds.doses)
+      };
+    },
+    currentTrendsFormatted() {
+      if (!this.currentTrends) {
+        return {};
+      }
+      return {
+        first: numeral(this.currentTrends.first).format("+ 0.0 %"),
+        full: numeral(this.currentTrends.full).format("+ 0.0 %"),
+        doses: numeral(this.currentTrends.doses).format("+ 0.0 %")
       };
     },
     currentQuotasFormatted() {
