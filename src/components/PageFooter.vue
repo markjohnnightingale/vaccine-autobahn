@@ -75,3 +75,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.footer {
+  margin-top: 3rem;
+}
+</style>

@@ -18,8 +18,8 @@
   "destination": {
     "population-fully-vaccinated": "All vaccine-ready adults fully vaccinated",
     "population-fully-half-vaccinated": "50% vaccine-ready adults vaccinated",
-    "population-first-fully-vaccinated": "All vaccine-ready adults had first dose",
-    "population-first-half-vaccinated": "50% vaccine-ready adults had first dose"
+    "population-first-fully-vaccinated": "All vaccine-ready adults will have first dose",
+    "population-first-half-vaccinated": "Half of vaccine-ready adults will have first dose"
   },
   "last-updated": {
     "latest-data-from": "Data as of: "

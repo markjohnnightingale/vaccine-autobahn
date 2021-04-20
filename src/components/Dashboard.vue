@@ -49,14 +49,38 @@
         </div>
       </div>
     </div>
-
-    <div class="columns is-centered">
-      <div class="column is-7">
-        <destination-widget
-          class="block"
-          :predicted-dates-linear="predictedDatesLinear"
-        ></destination-widget>
-      </div>
+    <div class="tile is-ancestor block">
+      <destination-widget
+        :title="$t('destination.population-first-half-vaccinated')"
+        :content="
+          predictedDatesLinear.first.half.fromNow() +
+            ' ' +
+            '(' +
+            predictedDatesLinear.first.half.format('MMM YYYY') +
+            ')'
+        "
+      ></destination-widget>
+      <destination-widget
+        :title="$t('destination.population-first-fully-vaccinated')"
+        :content="
+          predictedDatesLinear.first.everyone.fromNow() +
+            ' ' +
+            '(' +
+            predictedDatesLinear.first.everyone.format('MMM YYYY') +
+            ')'
+        "
+      ></destination-widget>
+      <destination-widget
+        :title="$t('destination.population-fully-vaccinated')"
+        :is-primary="true"
+        :content="
+          predictedDatesLinear.full.everyone.fromNow() +
+            ' ' +
+            '(' +
+            predictedDatesLinear.full.everyone.format('MMM YYYY') +
+            ')'
+        "
+      ></destination-widget>
     </div>
   </div>
 </template>

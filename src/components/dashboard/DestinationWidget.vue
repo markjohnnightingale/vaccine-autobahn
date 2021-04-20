@@ -1,33 +1,12 @@
 <template>
-  <div class="destination-widget box">
-    <div class="destination-widget__row">
-      <div class="destination-widget__destination">
-        {{ $t("destination.population-fully-vaccinated") }}
-      </div>
-      <div class="destination-widget__distance">
-        {{ predictedDatesLinear.full.everyone.fromNow() }} ({{
-          predictedDatesLinear.full.everyone.format("MMM YYYY")
-        }})
-      </div>
-    </div>
-    <div class="destination-widget__row">
-      <div class="destination-widget__destination">
-        {{ $t("destination.population-first-fully-vaccinated") }}
-      </div>
-      <div class="destination-widget__distance">
-        {{ predictedDatesLinear.first.everyone.fromNow() }} ({{
-          predictedDatesLinear.first.everyone.format("MMM YYYY")
-        }})
-      </div>
-    </div>
-    <div class="destination-widget__row">
-      <div class="destination-widget__destination">
-        {{ $t("destination.population-first-half-vaccinated") }}
-      </div>
-      <div class="destination-widget__distance">
-        {{ predictedDatesLinear.first.half.fromNow() }} ({{
-          predictedDatesLinear.first.half.format("MMM YYYY")
-        }})
+  <div class="tile is-parent is-4">
+    <div
+      class="tile is-child box destination-widget"
+      :class="{ 'is-primary': isPrimary }"
+    >
+      <div class="content">
+        <p class="destination-widget__title">{{ title }}</p>
+        <p class="destination-widget__content">{{ content }}</p>
       </div>
     </div>
   </div>
@@ -36,29 +15,47 @@
 <script>
 export default {
   props: {
-    predictedDatesLinear: {}
+    title: {},
+    content: {},
+    isPrimary: {
+      default: false
+    }
   }
 };
 </script>
 
 <style lang="scss">
 .destination-widget {
+  p,
+  div,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  li {
+    color: $white;
+  }
+  text-align: center;
   background-color: $autobahn-blue !important;
-  border: 8px solid $white;
+  color: $white;
+  margin-bottom: 2rem;
   border-radius: 9px;
   padding: 2rem !important;
   margin-bottom: 4rem;
   font-size: 1.2rem;
-  .destination-widget__row {
+  .destination-widget__content {
     font-weight: 900;
+    font-size: 1.7rem;
     font-family: $autobahn-font;
-    color: $white;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    &:last-child {
-      margin-bottom: 0;
-    }
+  }
+  .destination-widget__title {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  &.is-primary {
+    background-color: $color-primary-1 !important;
   }
 }
 </style>
