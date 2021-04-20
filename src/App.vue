@@ -101,7 +101,7 @@ export default {
       // create new array of data to preserve old array
       let reverseData = []
         .concat(this.processedData)
-        .sort((a, b) => a.date.isBefore(b.date));
+        .sort((a, b) => b.date.diff(a.date));
       let mostRecentDate = reverseData[0].date.clone();
       let firstDate = reverseData[reverseData.length - 1].date.clone();
 
@@ -158,7 +158,7 @@ export default {
       return aggregate;
     },
     getLastRow(rows) {
-      rows.sort((a, b) => a.date.isAfter(b.date));
+      rows.sort((a, b) => a.date.diff(b.date));
       return rows[rows.length - 1];
     },
     numeral(value) {
@@ -173,7 +173,11 @@ export default {
       return this.getWeeklyData(this.processedData);
     },
     currentSpeeds() {
-      if (!this.weeklyData) {
+      if (
+        !this.weeklyData ||
+        !this.weeklyData[this.weeklyData.length - 1] ||
+        !this.weeklyData[this.weeklyData.length - 2]
+      ) {
         return null;
       }
       return {
@@ -201,7 +205,11 @@ export default {
       };
     },
     currentQuotaSpeeds() {
-      if (!this.weeklyData) {
+      if (
+        !this.weeklyData ||
+        !this.weeklyData[this.weeklyData.length - 1] ||
+        !this.weeklyData[this.weeklyData.length - 2]
+      ) {
         return null;
       }
       return {
@@ -222,7 +230,11 @@ export default {
       };
     },
     currentQuotas() {
-      if (!this.weeklyData) {
+      if (
+        !this.weeklyData ||
+        !this.weeklyData[this.weeklyData.length - 1] ||
+        !this.weeklyData[this.weeklyData.length - 2]
+      ) {
         return null;
       }
       return {
@@ -235,7 +247,11 @@ export default {
       };
     },
     currentTrends() {
-      if (!this.weeklyData) {
+      if (
+        !this.weeklyData ||
+        !this.weeklyData[this.weeklyData.length - 1] ||
+        !this.weeklyData[this.weeklyData.length - 2]
+      ) {
         return null;
       }
       return {
@@ -305,10 +321,13 @@ export default {
       };
     },
     predictedFutureWeeklyData() {
+      if (!this.currentSpeeds) {
+        return null;
+      }
       // create new array of data to preserve old array
       let reverseData = []
         .concat(this.processedData)
-        .sort((a, b) => a.date.isBefore(b.date));
+        .sort((a, b) => b.date.diff(a.date));
       let mostRecentDate = reverseData[0].date.clone();
 
       const predictedWeeklyData = [];
