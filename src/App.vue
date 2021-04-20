@@ -10,7 +10,7 @@
         </p>
       </div>
     </section>
-    <div class="container">
+    <div class="container page-container">
       <div class="block">
         <last-updated
           :last-updated="lastUpdated"
@@ -352,4 +352,11 @@ export default {
 
 <style lang="scss">
 @import "../src/scss/variables.scss";
+</style>
+
+<style lang="scss">
+.page-container {
+  padding-left: $column-gap;
+  padding-right: $column-gap;
+}
 </style>

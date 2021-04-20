@@ -3,8 +3,7 @@
     <chart-component
       :chartData="chartData"
       :options="options"
-      :width="1000"
-      :height="400"
+      class="chart-container"
     ></chart-component>
   </div>
 </template>
@@ -42,7 +41,7 @@ export default {
                 lineWidth: 0
               },
               scaleLabel: {
-                display: true,
+                display: false,
                 labelString: vm.$t("chart.population")
               },
               ticks: {
@@ -87,7 +86,9 @@ export default {
               }
             }
           ]
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       }
     };
   },
@@ -103,6 +104,23 @@ export default {
         newArray.unshift(element);
       }
       return newArray;
+    },
+    handleWindowResize() {
+      const size = {
+        height: window.innerHeight,
+        width: window.innerWidth
+      };
+      const newOptions = { ...this.options };
+      if (size.width > 600) {
+        // Desktop view
+        newOptions.scales.yAxes[0].scaleLabel.display = true;
+        newOptions.scales.yAxes[1].scaleLabel.display = true;
+      } else {
+        // Mobile view
+        newOptions.scales.yAxes[0].scaleLabel.display = false;
+        newOptions.scales.yAxes[1].scaleLabel.display = false;
+      }
+      this.options = newOptions;
     }
   },
   computed: {
@@ -130,7 +148,7 @@ export default {
             ),
             parsing: false,
             backgroundColor: "#028DFE",
-            barPercentage: 0.95,
+            barPercentage: 0.99,
             categoryPercentage: 1.0
           },
           {
@@ -142,7 +160,7 @@ export default {
             ),
             parsing: false,
             backgroundColor: "#A2C7FB",
-            barPercentage: 0.95,
+            barPercentage: 0.99,
             categoryPercentage: 1.0
           },
           {
@@ -150,7 +168,9 @@ export default {
             yAxisID: "population",
             label: "Predicted Immunizations",
             data: this.predictedChartDataset,
-            backgroundColor: "#fcf0c4"
+            backgroundColor: "#fcf0c4",
+            barPercentage: 0.99,
+            categoryPercentage: 1.0
           }
         ],
         labels: this.weeklyData
@@ -167,6 +187,10 @@ export default {
         template
       ).map(row => row[this.$config.dataSchema.mapping.doses]);
     }
+  },
+  mounted() {
+    window.addEventListener("resize", this.handleWindowResize);
+    this.handleWindowResize();
   }
 };
 </script>
@@ -174,5 +198,8 @@ export default {
 <style lang="scss">
 .main-chart {
   text-align: center;
+}
+.chart-container {
+  height: 80vh;
 }
 </style>
