@@ -56,19 +56,6 @@
           class="block"
           :predicted-dates-linear="predictedDatesLinear"
         ></destination-widget>
-        <div class="data-used content is-small block">
-          <p class="title is-size-6">
-            {{ $t("dashboard.assumptions-title") }}
-          </p>
-          <p class="data-used__data">
-            {{ $t("dashboard.assumptions-population") }}
-            {{ numeral($config.vaccinatablePopulation).format("0a") }}
-          </p>
-          <p class="data-used__data">
-            {{ $t("dashboard.assumptions-vaccine-readiness") }}
-            {{ numeral($config.vaccineReadiness).format("0 %") }}
-          </p>
-        </div>
       </div>
     </div>
   </div>

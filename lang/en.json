@@ -13,10 +13,7 @@
     "in-the-last-7-days": "in the last 7 days",
     "had-first-dose": "Population with 1 dose",
     "had-second-dose": "Population full protection",
-    "week-number": "Wk {week}",
-    "assumptions-population": "Adult population is",
-    "assumptions-vaccine-readiness": "Vaccine readiness is",
-    "assumptions-title": "Calculated using the following assumptions"
+    "week-number": "Wk {week}"
   },
   "destination": {
     "population-fully-vaccinated": "All vaccine-ready adults fully vaccinated",
@@ -34,5 +31,15 @@
     "population": "Population",
     "speed": "Doses per week",
     "week-since-start": "Week since first vaccination"
+  },
+  "footer": {
+    "data-source": "Source of data",
+    "data-source-text": "Data is sourced from <a href=\"{link}\">impfdashboard.de</a>",
+    "assumptions-population": "Adult population is",
+    "assumptions-vaccine-readiness": "Vaccine readiness is",
+    "assumptions-title": "Calculated using the following assumptions",
+    "assumptions-vaccination-speed": "Doses given are assumed to progress linearly at the current speed, and a perfect assignment of first and second-doses is assumed. Predicted delivery quantities and dates from the EU are not used.",
+    "source": "(source)",
+    "byline": "Dashboard assembled by <a href='{link}'>Mark Nightingale</a>. <br>This is a side project: No liability for correct or incorrect data or calculations is assumed. <br><br>Distributed under <a href='{licence}'>GPLv3</a>. Fork me or improve me on <a href='{github}'>Github</a>"
   }
 }

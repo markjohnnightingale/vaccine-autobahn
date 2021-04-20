@@ -2,11 +2,12 @@
   "name": "vaccine-autobahn",
   "version": "0.1.0",
   "private": true,
+  "license": "GPL-3.0-or-later",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "yarn build && rsync -azv ./dist/ marknightingale@janus.marknightingale.net:vaccines.marknightingale.net/"
+    "deploy": "yarn build && rsync -azv ./dist/ mnet-janus:vaccines.marknightingale.net/"
   },
   "dependencies": {
     "axios": "^0.21.1",

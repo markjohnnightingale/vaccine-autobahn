@@ -31,6 +31,7 @@
         v-if="currentSpeeds && predictedDestinations"
       ></dashboard>
     </div>
+    <page-footer></page-footer>
   </div>
 </template>
 
@@ -38,15 +39,18 @@
 import MainChart from "./components/MainChart";
 import Dashboard from "./components/Dashboard";
 import LastUpdated from "./components/LastUpdated";
+import PageFooter from "./components/PageFooter";
 import Papa from "papaparse";
 import moment from "moment";
+import numeral from "numeral";
 
 export default {
   name: "app",
   components: {
     MainChart,
     Dashboard,
-    LastUpdated
+    LastUpdated,
+    PageFooter
   },
   data: function() {
     return {
@@ -156,6 +160,9 @@ export default {
     getLastRow(rows) {
       rows.sort((a, b) => a.date.isAfter(b.date));
       return rows[rows.length - 1];
+    },
+    numeral(value) {
+      return numeral(value);
     }
   },
   computed: {
@@ -314,7 +321,6 @@ export default {
         reverseData[0][this.$config.dataSchema.mapping.doses];
 
       while (predictedTotalDoses < requiredDoses) {
-        console.log(predictedTotalDoses, requiredDoses);
         predictedTotalDoses += this.currentSpeeds.doses;
         let weeksData = {};
         weeksData[this.$config.dataSchema.mapping.doses] = predictedTotalDoses;
