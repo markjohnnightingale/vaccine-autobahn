@@ -75,7 +75,8 @@ export default {
               stacked: true,
               gridLines: {
                 zeroLineWidth: 0,
-                lineWidth: 1
+                lineWidth: 1,
+                color: "rgba(0,0,0,0.04)"
               },
               scaleLabel: {
                 display: true,
@@ -148,7 +149,7 @@ export default {
             ),
             parsing: false,
             backgroundColor: "#028DFE",
-            barPercentage: 0.99,
+            barPercentage: 0.95,
             categoryPercentage: 1.0
           },
           {
@@ -160,7 +161,7 @@ export default {
             ),
             parsing: false,
             backgroundColor: "#A2C7FB",
-            barPercentage: 0.99,
+            barPercentage: 0.95,
             categoryPercentage: 1.0
           },
           {
@@ -169,7 +170,7 @@ export default {
             label: "Predicted Immunizations",
             data: this.predictedChartDataset,
             backgroundColor: "#fcf0c4",
-            barPercentage: 0.99,
+            barPercentage: 0.95,
             categoryPercentage: 1.0
           }
         ],
