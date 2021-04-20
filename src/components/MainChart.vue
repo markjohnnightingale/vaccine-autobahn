@@ -112,13 +112,14 @@ export default {
           {
             type: "line",
             yAxisID: "speed",
-            label: "Doses per week",
+            label: "Current Speed (Doses per week)",
             data: this.weeklyData.map(
               row => row.diffs[this.$config.dataSchema.mapping.doses]
             ),
             fill: false,
             borderColor: "#305db8",
-            zIndex: 99
+            zIndex: 99,
+            lineTension: 0.3
           },
           {
             type: "bar",
