@@ -1,7 +1,7 @@
 {
   "site": {
-    "title": "Vaccine Autobahn",
-    "subtitle": "How fast are we going? When will we get there?"
+    "title": "The German Vaccine Autobahn",
+    "subtitle": "Looking at how fast we're currently vaccinating and making some semi-wild assumptions about when we might reach our destination..."
   },
   "dashboard":{
     "current-speed": "Jabs in the last 7 days",
