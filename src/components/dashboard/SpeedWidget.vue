@@ -58,12 +58,12 @@ export default {
     }
   }
   .speed-widget__trend {
-    color: $red;
+    color: $text-red;
     font-size: 0.8rem;
     line-height: 1;
     margin-left: 0.5rem;
     &.is-positive {
-      color: $green;
+      color: $text-green;
     }
   }
   .speed-widget__trend-number {

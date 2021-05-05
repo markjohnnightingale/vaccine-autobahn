@@ -2,7 +2,7 @@
   <div class="tile is-parent is-4">
     <div
       class="tile is-child box destination-widget"
-      :class="{ 'is-primary': isPrimary }"
+      :class="{ 'is-primary': isPrimary, 'is-reached': isReached }"
     >
       <div class="content">
         <p class="destination-widget__title">{{ title }}</p>
@@ -18,6 +18,9 @@ export default {
     title: {},
     content: {},
     isPrimary: {
+      default: false
+    },
+    isReached: {
       default: false
     }
   }
@@ -56,6 +59,9 @@ export default {
   }
   &.is-primary {
     background-color: $color-primary-1 !important;
+  }
+  &.is-reached {
+    background-color: $green !important;
   }
 }
 </style>

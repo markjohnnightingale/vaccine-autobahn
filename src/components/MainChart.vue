@@ -201,6 +201,9 @@ export default {
   text-align: center;
 }
 .chart-container {
-  height: 80vh;
+  height: 60vh;
+  @media screen and (min-width: 601px) {
+    height: 80vh;
+  }
 }
 </style>

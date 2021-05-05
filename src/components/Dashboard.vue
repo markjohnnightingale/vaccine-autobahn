@@ -52,6 +52,7 @@
     <div class="tile is-ancestor block">
       <destination-widget
         :title="$t('destination.population-first-half-vaccinated')"
+        :is-reached="predictedDatesLinear.first.half.isBefore()"
         :content="
           predictedDatesLinear.first.half.fromNow() +
             ' ' +
@@ -62,6 +63,7 @@
       ></destination-widget>
       <destination-widget
         :title="$t('destination.population-first-fully-vaccinated')"
+        :is-reached="predictedDatesLinear.first.everyone.isBefore()"
         :content="
           predictedDatesLinear.first.everyone.fromNow() +
             ' ' +
@@ -72,6 +74,7 @@
       ></destination-widget>
       <destination-widget
         :title="$t('destination.population-fully-vaccinated')"
+        :is-reached="predictedDatesLinear.full.everyone.isBefore()"
         :is-primary="true"
         :content="
           predictedDatesLinear.full.everyone.fromNow() +
